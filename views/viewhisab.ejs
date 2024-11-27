@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Hisab - HisabKitab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-white">
+
+    <!-- Navbar -->
+    <nav class="p-4 bg-red-500">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl text-white font-bold">HisabKitab</h1>
+            <div class="space-x-6">
+                <a href="/addhisab" class="text-white hover:underline">Add Hisab</a>
+                <a href="/profile" class="text-white hover:underline">Profile</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hisab List -->
+    <div class="container mx-auto my-10">
+        <h2 class="text-3xl font-bold text-red-500 mb-6 text-center">Your Hisab</h2>
+
+        <!-- Graph Section -->
+        <div class="bg-gray-100 shadow-lg rounded-lg p-6 mb-8">
+            <h3 class="text-xl font-semibold text-red-500 mb-4">Hisab Overview</h3>
+            <canvas id="hisabChart" class="w-full"></canvas>
+        </div>
+
+       
+        <!-- Table Section -->
+        <div class="bg-gray-100 shadow-lg rounded-lg p-6">
+            <table class="min-w-full bg-white border border-gray-300 rounded-lg">
+                <thead>
+                    <tr class="bg-red-500 text-white">
+                        <th class="px-6 py-3 text-left">Date</th>
+                        <th class="px-6 py-3 text-left">Category</th>
+                        <th class="px-6 py-3 text-left">Amount</th>
+                        <th class="px-6 py-3 text-left">Description</th>
+                        <th class="px-6 py-3 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% posts.forEach(function(post) { %>
+                        <tr class="border-b border-gray-300">
+                            <td class="px-6 py-4 text-gray-700"><%= post.date.toISOString().split('T')[0] %></td>
+                            <td class="px-6 py-4 text-gray-700"><%= post.category %></td>
+                            <td class="px-6 py-4 text-gray-700">₹<%= post.amount %></td>
+                            <td class="px-6 py-4 text-gray-700"><%= post.description %></td>
+                            <td class="px-6 py-4 text-center">
+                                <a href="/edit-hisab/<%= post._id %>" class="text-blue-500 hover:underline mx-2">Edit</a>
+                                <a href="/delete-hisab/<%= post._id %>" class="text-red-500 hover:underline mx-2">Delete</a>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Ensure data passed from backend is correctly converted to JavaScript arrays
+        const incomeData = <%= JSON.stringify(incomeData) %>;
+        const expenseData = <%= JSON.stringify(expenseData) %>;
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+        // Verify the data in the browser's developer console
+        console.log('Income Data:', incomeData);
+        console.log('Expense Data:', expenseData);
+        console.log('Months:', months);
+    
+        // Create the chart
+        const ctx = document.getElementById('hisabChart').getContext('2d');
+        const hisabChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: months,  // X-axis labels (Months)
+                datasets: [{
+                    label: 'Income',
+                    data: incomeData,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                }, {
+                    label: 'Expenses',
+                    data: expenseData,
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: true,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.dataset.label}: ₹${context.raw}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        
+    </script>
+    

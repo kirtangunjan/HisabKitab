@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Picture Upload</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .upload-icon {
+            animation: bounce 1.5s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans">
+
+    <!-- Container -->
+    <div class="max-w-lg mx-auto mt-20 bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold text-center text-red-500 mb-4">Upload Your Profile Picture</h1>
+            <p class="text-center text-gray-600 mb-6">Make your profile stand out by uploading a great picture!</p>
+
+            <!-- Upload Form -->
+            <form action="/upload" method="POST" enctype="multipart/form-data" class="space-y-6">
+                <div class="flex flex-col items-center">
+                    <!-- Image Preview -->
+                    <div id="imagePreview" class="w-24 h-24 bg-gray-100 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center mb-4 overflow-hidden">
+                        <svg id="uploadIcon" class="w-10 h-10 text-gray-400 upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <img id="uploadedImage" src="#" alt="Preview" class="hidden object-cover w-full h-full">
+                    </div>
+                    <!-- File Input -->
+                    <label for="profilePicture" class="cursor-pointer bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition duration-300">
+                        Choose File
+                        <input type="file" id="profilePicture" name="image" class="hidden" required>
+                    </label>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition duration-300">
+                        Upload
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script for Image Preview -->
+    <script>
+        const profilePictureInput = document.getElementById('profilePicture');
+        const imagePreview = document.getElementById('imagePreview');
+        const uploadedImage = document.getElementById('uploadedImage');
+        const uploadIcon = document.getElementById('uploadIcon');
+
+        profilePictureInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImage.src = e.target.result;
+                    uploadedImage.classList.remove('hidden');
+                    uploadIcon.classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+</body>
+</html>

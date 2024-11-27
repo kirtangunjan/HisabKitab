@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - HisabKitab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar -->
+    <nav class="p-4 bg-white shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold text-red-500">HisabKitab</a>
+            <div class="space-x-6">
+                <a href="/" class="text-gray-800 hover:text-red-500">Home</a>
+                <a href="/addhisab" class="text-gray-800 hover:text-red-500">Add Hisab</a>
+                <a href="/viewhisab" class="text-gray-800 hover:text-red-500">My Hisab</a>
+                <a href="/profile" class="text-gray-800 hover:text-red-500">Profile</a>
+                <a href="/logout" class="text-gray-800 hover:text-red-500">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Section -->
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+               <!-- Profile Header -->
+<div class="flex flex-col items-center space-y-4 mb-8 overflow-hidden relative">
+    <!-- Profile Picture -->
+    <div class="relative w-36 h-36">
+        <img src="/images/uploads/<%= user.profilepic %>" alt="Profile Picture" class="w-full h-full rounded-full shadow-md object-cover">
+        
+        <!-- '+' Icon in the bottom-right corner -->
+        <a href="/profile/upload"><div class="absolute bottom-0 right-0 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold">
+            <span>+</span>
+        </div></a>
+    </div>
+    <h1 class="text-3xl font-bold text-red-500">Welcome, <%= user.name %></h1>
+    <p class="text-lg text-gray-600">You're just one step away from managing your finances effortlessly!</p>
+</div>
+
+               
+
+                <!-- Personal Info Section -->
+                <div class="mt-8">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Personal Information</h2>
+                    <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div class="flex flex-col">
+                                <label for="email" class="text-sm font-medium text-gray-600">Email</label>
+                                <p id="email" class="text-lg text-gray-800"><%= user.email %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Management Section -->
+                <div class="mt-12">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Account Settings</h2>
+                    <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+                        <a href="/editprofile/<%= user._id %>" class="block text-red-500 hover:text-red-600 font-medium">Edit Profile</a>
+                        <a href="/change-password" class="block text-red-500 hover:text-red-600 font-medium mt-4">Change Password</a>
+                        <a href="/deleteprofile/<%= user._id%>" class="block text-red-500 hover:text-red-600 font-medium mt-4">Delete Account</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 HisabKitab. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
